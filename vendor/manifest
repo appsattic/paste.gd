@@ -1,0 +1,11 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/gomiddleware/mux",
+			"repository": "https://github.com/gomiddleware/mux",
+			"revision": "cb5709b593789095df3d228080ed2bec60211349",
+			"branch": "master"
+		}
+	]
+}
