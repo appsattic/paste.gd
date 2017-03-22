@@ -30,7 +30,7 @@ m4 \
     -D __PASTE_PORT__=$PASTE_PORT \
     -D __PASTE_APEX__=$PASTE_APEX \
     -D __PASTE_BASE_URL__=$PASTE_BASE_URL \
-    etc/supervisor/conf.d/paste.conf.m4 | sudo tee /etc/supervisor/conf.d/.conf
+    etc/supervisor/conf.d/paste.conf.m4 | sudo tee /etc/supervisor/conf.d/paste.conf
 echo
 
 # restart supervisor
