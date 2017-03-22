@@ -2,6 +2,24 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/chilts/sid",
+			"repository": "https://github.com/chilts/sid",
+			"revision": "6cf658ffc40cc14559db7af19fdae2ac0bf3d780",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gomiddleware/logger",
+			"repository": "https://github.com/gomiddleware/logger",
+			"revision": "c219596edc8447787cec05d2ab87bbcc26909ad4",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gomiddleware/logit",
+			"repository": "https://github.com/gomiddleware/logit",
+			"revision": "6420f4cc3abe6df8885545f0c0f1847b5d847a3f",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/gomiddleware/mux",
 			"repository": "https://github.com/gomiddleware/mux",
 			"revision": "cb5709b593789095df3d228080ed2bec60211349",
