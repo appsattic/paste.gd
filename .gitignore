@@ -2,3 +2,5 @@
 /bin/
 set-env-*.sh
 *.db
+*.min.css
+*.min.js
