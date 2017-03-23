@@ -8,6 +8,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/chilts/rod",
+			"repository": "https://github.com/chilts/rod",
+			"revision": "866e48b1362b39a5d30e08500b9dc2c9ffe58b20",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/chilts/sid",
 			"repository": "https://github.com/chilts/sid",
 			"revision": "6cf658ffc40cc14559db7af19fdae2ac0bf3d780",
