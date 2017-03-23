@@ -1,33 +1,21 @@
 {{ template "header.html" . }}
 
   <div class="jumbotron">
-    <h1 class="display-3">Jumbotron heading</h1>
-    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-    <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-  </div>
-
-  <div class="row marketing">
-    <div class="col-lg-6">
-      <h4>Subheading</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-      <h4>Subheading</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-      <h4>Subheading</h4>
-      <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-    </div>
-
-    <div class="col-lg-6">
-      <h4>Subheading</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-      <h4>Subheading</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-      <h4>Subheading</h4>
-      <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-    </div>
+    <h1 class="display-3">New Paste</h1>
+    <p class="lead">
+      Paste what you like.
+    </p>
+    <form method="post" action="/paste">
+      <label for="text">Text</label>
+      <br>
+      <textarea id="text" name="text"></textarea>
+      <br>
+      <label for="title">Title</label>
+      <br>
+      <input id="title" type="text" name="title">
+      <br>
+      <input id="submit" type="submit" class="btn btn-primary" name="title" value="Create New Paste">
+    </form>
   </div>
 
 {{ template "footer.html" . }}

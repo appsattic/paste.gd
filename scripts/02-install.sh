@@ -16,12 +16,19 @@ fi
 echo
 
 # General
+WHO=`whoami`
 PASTE_PORT=`ask.sh pow PASTE_PORT 'Which local port should the server listen on (e.g. 8420):'`
 PASTE_APEX=`ask.sh pow PASTE_APEX 'What is the apex (e.g. localhost:8420 or paste.gd) :'`
 PASTE_BASE_URL=`ask.sh pow PASTE_BASE_URL 'What is the base URL (e.g. http://localhost:1234 or https://paste.gd) :'`
+PASTE_DIR=`ask.sh pow PASTE_DIR 'What is the storage dir (e.g. /var/lib/paste/raw) :'`
 
 echo "Building code ..."
 gb build
+echo
+
+echo "Creating storage dir ..."
+sudo mkdir -p $PASTE_DIR
+sudo chown ${WHO}.${WHO} $PASTE_DIR
 echo
 
 # copy the supervisor script into place
@@ -30,6 +37,7 @@ m4 \
     -D __PASTE_PORT__=$PASTE_PORT \
     -D __PASTE_APEX__=$PASTE_APEX \
     -D __PASTE_BASE_URL__=$PASTE_BASE_URL \
+    -D __PASTE_DIR__=$PASTE_DIR \
     etc/supervisor/conf.d/paste.conf.m4 | sudo tee /etc/supervisor/conf.d/paste.conf
 echo
 
@@ -43,7 +51,6 @@ echo "Copying Caddy config config ..."
 m4 \
     -D __PASTE_PORT__=$PASTE_PORT \
     -D __PASTE_APEX__=$PASTE_APEX \
-    -D __PASTE_BASE_URL__=$PASTE_BASE_URL \
     etc/caddy/vhosts/paste.conf.m4 | sudo tee /etc/caddy/vhosts/paste.conf
 echo
 
