@@ -7,7 +7,7 @@ type Paste struct {
 	Title      string
 	Text       string
 	Size       int
-	Visibility string // public, unlisted (private)
+	Visibility string // public, unlisted, encrypted
 	Expire     time.Time
 	Created    time.Time
 	Updated    time.Time
