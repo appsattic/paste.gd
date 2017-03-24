@@ -109,6 +109,7 @@ func main() {
 			Created:    now,
 			Updated:    now,
 		}
+		fmt.Printf("--> paste=%#v\n", paste)
 
 		// check visibility
 		if visibility != "public" && visibility != "unlisted" {
@@ -130,6 +131,7 @@ func main() {
 
 		// save the text to a file
 		filename := dir + "/" + paste.Id
+		fmt.Printf("--> filename=%#v\n", filename)
 		err = ioutil.WriteFile(filename, []byte(paste.Text), 0755)
 		if err != nil {
 			internalServerError(w, err)
@@ -146,6 +148,7 @@ func main() {
 			return
 		}
 
+		fmt.Printf("--> redirecting\n")
 		http.Redirect(w, r, "/"+paste.Id, http.StatusFound)
 	})
 
@@ -153,7 +156,40 @@ func main() {
 		id := mux.Vals(r)["id"]
 		fmt.Printf("id=%s\n", id)
 
-		// ToDo: check the datastore first, since then we'll get both existance AND visibility
+		// No need to check the datastore, since if the person has the correct Id, then
+		// they are allowed to see the paste.
+
+		// Check the datastore first for existance first, probably quicker.
+
+		// check if the file exists
+		filename := dir + "/" + id
+		if _, err := os.Stat(filename); os.IsNotExist(err) {
+			notFound(w, r)
+			return
+		}
+
+		// open the file and stream it to the response
+		file, err := os.Open(filename)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+
+		// now write the plaintext header and stream the file
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		_, err = io.Copy(w, file)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+	})
+
+	m.Get("/raw/:id", func(w http.ResponseWriter, r *http.Request) {
+		id := mux.Vals(r)["id"]
+		fmt.Printf("id=%s\n", id)
+
+		// No need to check the datastore, since if the person has the correct Id, then
+		// they are allowed to see the paste.
 
 		// check if the file exists
 		filename := dir + "/" + id

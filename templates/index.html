@@ -1,21 +1,24 @@
 {{ template "header.html" . }}
 
   <div class="jumbotron">
-    <h1 class="display-3">New Paste</h1>
-    <p class="lead">
-      Paste what you like.
-    </p>
+    <h2 class="display-4">New Paste</h2>
+
     <form method="post" action="/paste">
-      <label for="text">Text</label>
-      <br>
-      <textarea id="text" name="text"></textarea>
-      <br>
-      <label for="title">Title</label>
-      <br>
-      <input id="title" type="text" name="title">
-      <br>
-      <input id="submit" type="submit" class="btn btn-primary" name="title" value="Create New Paste">
+      <div class="form-group">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title ... (optional)">
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" id="text" name="text" rows="20" placeholder="Text ..."></textarea>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="visibility">
+          Unlisted
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Create New Paste</button>
     </form>
+
   </div>
 
 {{ template "footer.html" . }}
