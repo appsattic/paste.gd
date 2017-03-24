@@ -17,10 +17,10 @@ echo
 
 # General
 WHO=`whoami`
-PASTE_PORT=`ask.sh pow PASTE_PORT 'Which local port should the server listen on (e.g. 8420):'`
-PASTE_APEX=`ask.sh pow PASTE_APEX 'What is the apex (e.g. localhost:8420 or paste.gd) :'`
-PASTE_BASE_URL=`ask.sh pow PASTE_BASE_URL 'What is the base URL (e.g. http://localhost:1234 or https://paste.gd) :'`
-PASTE_DIR=`ask.sh pow PASTE_DIR 'What is the storage dir (e.g. /var/lib/paste/raw) :'`
+PASTE_PORT=`ask.sh paste PASTE_PORT 'Which local port should the server listen on (e.g. 8420):'`
+PASTE_APEX=`ask.sh paste PASTE_APEX 'What is the apex (e.g. localhost:8420 or paste.gd) :'`
+PASTE_BASE_URL=`ask.sh paste PASTE_BASE_URL 'What is the base URL (e.g. http://localhost:1234 or https://paste.gd) :'`
+PASTE_DIR=`ask.sh paste PASTE_DIR 'What is the storage dir (e.g. /var/lib/paste/raw) :'`
 
 echo "Building code ..."
 gb build
