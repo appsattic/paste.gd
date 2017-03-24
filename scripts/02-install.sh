@@ -26,6 +26,10 @@ echo "Building code ..."
 gb build
 echo
 
+echo "Minifying assets ..."
+make minify
+echo
+
 echo "Creating storage dir ..."
 sudo mkdir -p $PASTE_DIR
 sudo chown ${WHO}.${WHO} $PASTE_DIR
