@@ -4,7 +4,7 @@
     <div class="col-lg-9">
       <h2>{{ or .Paste.Title "Paste" }}</h2>
       <p class="text-muted">
-        Created: {{ .Paste.Created.Format "02 Jan 2006, 15:04:05" }}.
+        Created: {{ .Paste.Created.Format "02 Jan 2006, 15:04:05 MST" }}.
       </p>
       <pre style="border: 1px solid rgba(0,0,0,.125); border-radius: .25rem; background-color: #eee; padding: 1.23rem;"><code>{{ .Text }}</code></pre>
     </div>
