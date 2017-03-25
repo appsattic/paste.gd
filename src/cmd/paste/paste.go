@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/boltdb/bolt"
@@ -109,7 +110,6 @@ func main() {
 		paste := Paste{
 			Id:         Id(6),
 			Title:      title,
-			Text:       text,
 			Size:       len(text),
 			Visibility: visibility,
 			Created:    now,
@@ -137,13 +137,11 @@ func main() {
 
 		// save the text to a file
 		filename := dir + "/" + paste.Id
-		// fmt.Printf("--> filename=%#v\n", filename)
-		err = ioutil.WriteFile(filename, []byte(paste.Text), 0755)
+		err = ioutil.WriteFile(filename, []byte(text), 0755)
 		if err != nil {
 			internalServerError(w, err)
 			return
 		}
-		paste.Text = ""
 
 		// save this to the datastore
 		err = db.Update(func(tx *bolt.Tx) error {
@@ -162,33 +160,75 @@ func main() {
 		id := mux.Vals(r)["id"]
 		// fmt.Printf("id=%s\n", id)
 
-		// No need to check the datastore, since if the person has the correct Id, then
-		// they are allowed to see the paste.
+		// See if this is for the paste page `/TtysPe` or the raw paste `/TtysPe.txt`.
+		raw := strings.HasSuffix(id, ".txt")
+		if raw {
+			// remove the trailing ".txt" if this is a raw URL
+			id = strings.TrimSuffix(id, ".txt")
+		}
 
-		// Check the datastore first for existance first, probably quicker. Also, we might need to check
-		// if `paste.Expire.IsZero()` is not true and then check it hasn't already expired.
+		// get the paste info from the datastore
+		paste := Paste{}
+		err := db.View(func(tx *bolt.Tx) error {
+			return rod.GetJson(tx, pasteBucketNameStr, id, &paste)
+		})
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
 
-		// check if the file exists
+		// ToDo: check to see if this paste has expired
+		if paste.Expire.IsZero() {
+			// no expiry set
+		} else {
+			// check paste.Expire
+		}
+
+		// check if the file exists (even though it should)
 		filename := dir + "/" + id
 		if _, err := os.Stat(filename); os.IsNotExist(err) {
 			notFound(w, r)
 			return
 		}
 
-		// open the file and stream it to the response
-		file, err := os.Open(filename)
+		if raw {
+			// open the file
+			file, err := os.Open(filename)
+			if err != nil {
+				internalServerError(w, err)
+				return
+			}
+
+			// write the plaintext header and stream the file
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+			_, err = io.Copy(w, file)
+			if err != nil {
+				internalServerError(w, err)
+				return
+			}
+			return
+		}
+
+		// rendering the paste page, so we're going to read in the file in it's entirety
+		text, err := ioutil.ReadFile(filename)
 		if err != nil {
 			internalServerError(w, err)
 			return
 		}
 
-		// now write the plaintext header and stream the file
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		_, err = io.Copy(w, file)
-		if err != nil {
-			internalServerError(w, err)
-			return
+		// render the Paste page
+		data := struct {
+			Apex    string
+			BaseUrl string
+			Paste   Paste
+			Text    string
+		}{
+			apex,
+			baseUrl,
+			paste,
+			string(text),
 		}
+		render(w, tmpl, "paste.html", data)
 	})
 
 	// finally, check all routing was added correctly
