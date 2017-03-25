@@ -115,25 +115,6 @@ func main() {
 			Created:    now,
 			Updated:    now,
 		}
-		// fmt.Printf("--> paste=%#v\n", paste)
-
-		// check visibility
-		if visibility != "public" && visibility != "unlisted" {
-			// fmt.Printf("--> visibility=%#v\n", visibility)
-			paste.Visibility = "public"
-
-			data := struct {
-				Apex    string
-				BaseUrl string
-				Paste   Paste
-			}{
-				apex,
-				baseUrl,
-				paste,
-			}
-			render(w, tmpl, "index.html", data)
-			return
-		}
 
 		// save the text to a file
 		filename := dir + "/" + paste.Id
