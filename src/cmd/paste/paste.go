@@ -212,6 +212,33 @@ func main() {
 		render(w, tmpl, "paste.html", data)
 	})
 
+	m.Get("/dl/:id", func(w http.ResponseWriter, r *http.Request) {
+		id := mux.Vals(r)["id"]
+
+		// check if the file exists (even though it should)
+		filename := dir + "/" + id
+		if _, err := os.Stat(filename); os.IsNotExist(err) {
+			notFound(w, r)
+			return
+		}
+
+		// open the file
+		file, err := os.Open(filename)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+
+		// write the plaintext header and stream the file
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.Header().Set("Content-Disposition", "attachment; filename="+id+".txt")
+		_, err = io.Copy(w, file)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+	})
+
 	// finally, check all routing was added correctly
 	check(m.Err)
 
