@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+    <title>paste.gd - An Open Source Paste Bin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="/s/css/styles.min.css">
+  </head>
+
+  <body style="margin: 0; padding: 0;">
+
+    <div style="border: 1px solid rgba(0,0,0,.125); background-color: #eee; padding: 0.5rem;">
+      <div style="float: right;">Hosted with ♥ by <a href="https://paste.gd/">paste.gd</a>.</div>
+      <div>
+        <a href="#" class="btn btn-sm btn-primary disabled" download="{{ or .Id }}.txt">Copy to Clipboard</a>
+        <a href="{{ .BaseUrl }}/dl/{{ .Id }}" class="btn btn-sm btn-primary" download="{{ or .Id }}.txt">Download</a>
+        <a href="{{ .BaseUrl }}/{{ .Id }}" class="btn btn-sm btn-primary" target="_blank">See Original</a>
+      </div>
+    </div>
+    <pre style="padding: 1.23rem;"><code>{{ .Text }}</code></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js"></script>
+    <script src="/s/js/ie10.min.js"></script>
+  </body>
+</html>

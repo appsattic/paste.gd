@@ -239,6 +239,38 @@ func main() {
 		}
 	})
 
+	m.Get("/iframe/:id", func(w http.ResponseWriter, r *http.Request) {
+		id := mux.Vals(r)["id"]
+
+		// check if the file exists (even though it should)
+		filename := dir + "/" + id
+		if _, err := os.Stat(filename); os.IsNotExist(err) {
+			notFound(w, r)
+			return
+		}
+
+		// rendering the paste page, so we're going to read in the file in it's entirety
+		text, err := ioutil.ReadFile(filename)
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+
+		// render the Paste page
+		data := struct {
+			Apex    string
+			BaseUrl string
+			Id      string
+			Text    string
+		}{
+			apex,
+			baseUrl,
+			id,
+			string(text),
+		}
+		render(w, tmpl, "iframe.html", data)
+	})
+
 	// finally, check all routing was added correctly
 	check(m.Err)
 
