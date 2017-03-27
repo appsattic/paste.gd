@@ -7,18 +7,32 @@
         Created: {{ .Paste.Created.Format "02 Jan 2006, 15:04:05 MST" }}.
       </p>
       <p>
-        <a href="/{{ .Paste.Id }}.txt" target="_blank" class="btn btn-sm btn-primary">Raw</a>
-        <a href="/dl/{{ .Paste.Id }}" class="btn btn-sm btn-primary" download="{{ or .Paste.Title .Paste.Id }}.txt">Download</a>
-        <a href="#" class="btn btn-sm btn-primary disabled">Clone</a>
-        <a href="#" class="btn btn-sm btn-primary disabled">Embed</a>
-        <a href="#" class="btn btn-sm btn-primary disabled">Report</a>
-        <a href="#" class="btn btn-sm btn-primary disabled">Print</a>
+        <a href="/{{ .Paste.Id }}.txt" id="raw" target="_blank" class="btn btn-sm btn-primary">Raw</a>
+        <a href="/dl/{{ .Paste.Id }}" id="download" class="btn btn-sm btn-primary" download="{{ or .Paste.Title .Paste.Id }}.txt">Download</a>
+        <a href="#" id="clone" class="btn btn-sm btn-primary disabled">Clone</a>
+        <a href="#" id="print" class="btn btn-sm btn-primary disabled">Print</a>
       </p>
       <pre style="border: 1px solid rgba(0,0,0,.125); border-radius: .25rem; background-color: #eee; padding: 1.23rem;"><code>{{ .Text }}</code></pre>
     </div>
     <div class="col-lg-3">
-      <h3>Sidebar</h3>
-      <p>ToDo.</p>
+      <h4>Embed this Paste</h4>
+      <p>
+        There are two ways to embed this paste.
+        You can use a traditional <code>&lt;iframe&gt;</code>,
+        or in any text field that supports JavaScript using the
+        <code>&lt;script&gt;</code>
+        tag <span class="text-muted">(coming soon)</span>.
+      </p>
+      <h5>Embed<!-- <small><a href="#">Copy to Clipboard</a></small>--></h5>
+      <div class="form-group">
+        <textarea readonly class="form-control" rows="5"><iframe src="{{ .BaseUrl }}/iframe/{{ .Paste.Id }}" style="border:none;width:100%;"></iframe></textarea>
+      </div>
+      <!--
+      <h5>JavaScript <small><a href="#">Copy to Clipboard</a></small></h5>
+      <div class="form-group">
+        <textarea readonly class="form-control" rows="5"><iframe src="{{ .BaseUrl }}/iframe/{{ .Paste.Id }}" style="border:none;width:100%;"></iframe></textarea>
+      </div>
+      -->
     </div>
   </div>
 
