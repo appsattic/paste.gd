@@ -86,22 +86,52 @@ func main() {
 			Apex    string
 			BaseUrl string
 			Paste   Paste
+			Form    map[string]string
+			Errors  map[string]string
 		}{
 			apex,
 			baseUrl,
 			Paste{},
+			nil,
+			nil,
 		}
 		render(w, tmpl, "index.html", data)
 	})
 
+	m.Get("/paste", redirect("/"))
 	m.Post("/paste", func(w http.ResponseWriter, r *http.Request) {
 		// get the values of certain fields
-		title := r.FormValue("title")
-		text := r.FormValue("text")
-		visibility := r.FormValue("visibility")
+		title := r.FormValue("Title")
+		text := r.FormValue("Text")
+		visibility := r.FormValue("Visibility")
 		if visibility != "unlisted" && visibility != "public" && visibility != "encrypted" {
 			// since this comes from a form, then someone is messing with it - don't give them any leeway
 			internalServerError(w, errors.New("visibility was not an allowed option"))
+			return
+		}
+
+		// check that the paste is not empty
+		if text == "" {
+			form := make(map[string]string)
+			form["Title"] = title
+			form["Text"] = text
+			form["Visibility"] = visibility
+			errors := make(map[string]string)
+			errors["Text"] = "Provide some text"
+			data := struct {
+				Apex    string
+				BaseUrl string
+				Paste   Paste
+				Form    map[string]string
+				Errors  map[string]string
+			}{
+				apex,
+				baseUrl,
+				Paste{},
+				form,
+				errors,
+			}
+			render(w, tmpl, "index.html", data)
 			return
 		}
 

@@ -5,28 +5,29 @@
 
     <form method="post" action="/paste">
       <div class="form-group">
-        <input type="text" class="form-control" id="title" name="title" placeholder="Title ... (optional)">
+        <input type="text" class="form-control" id="title" name="Title" placeholder="Title ... (optional)" value="{{ with .Form.Title }}{{ . }}{{ end }}">
       </div>
-      <div class="form-group">
-        <textarea class="form-control" id="text" name="text" rows="15" placeholder="Text ..."></textarea>
+      <div class="form-group {{ with .Errors.Text }}has-danger{{ end }}">
+        <textarea class="form-control {{ with .Errors.Text }}form-control-danger{{ end }}" id="text" name="Text" rows="15" placeholder="Text ...">{{ with .Form.Text }}{{ . }}{{ end }}</textarea>
+        {{ with .Errors.Text }}<div class="form-control-feedback">{{ . }}</div>{{ end }}
       </div>
       <fieldset class="form-group">
         <!-- <legend>Visibility</legend> -->
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="visibility" id="public" value="public" checked>
+            <input type="radio" class="form-check-input" name="Visibility" id="public" value="public" checked>
             Public (Anyone can find it.)
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="visibility" id="unlisted" value="unlisted">
+            <input type="radio" class="form-check-input" name="Visibility" id="unlisted" value="unlisted">
             Unlisted (Paste URL required to view.)
           </label>
         </div>
         <div class="form-check disabled">
           <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="visibility" id="encrypted" value="encrypted" disabled>
+            <input type="radio" class="form-check-input" name="Visibility" id="encrypted" value="encrypted" disabled>
             Encrypted (Not yet implemented.)
           </label>
         </div>
