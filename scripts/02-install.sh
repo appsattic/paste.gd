@@ -21,6 +21,7 @@ PASTE_PORT=`ask.sh paste PASTE_PORT 'Which local port should the server listen o
 PASTE_APEX=`ask.sh paste PASTE_APEX 'What is the apex (e.g. localhost:8420 or paste.gd) :'`
 PASTE_BASE_URL=`ask.sh paste PASTE_BASE_URL 'What is the base URL (e.g. http://localhost:1234 or https://paste.gd) :'`
 PASTE_DIR=`ask.sh paste PASTE_DIR 'What is the storage dir (e.g. /var/lib/paste/raw) :'`
+PASTE_GOOGLE_ANALYTICS=`ask.sh paste PASTE_GOOGLE_ANALYTICS 'What is the Google Analytics code (e.g. UA-123-4) :'`
 
 echo "Building code ..."
 gb build
@@ -42,6 +43,7 @@ m4 \
     -D __PASTE_APEX__=$PASTE_APEX \
     -D __PASTE_BASE_URL__=$PASTE_BASE_URL \
     -D __PASTE_DIR__=$PASTE_DIR \
+    -D __PASTE_GOOGLE_ANALYTICS__=$PASTE_GOOGLE_ANALYTICS \
     etc/supervisor/conf.d/paste.conf.m4 | sudo tee /etc/supervisor/conf.d/paste.conf
 echo
 

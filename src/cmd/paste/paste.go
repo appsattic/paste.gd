@@ -43,6 +43,7 @@ func main() {
 	if dir == "" {
 		log.Fatal("Specify a dir to write pastefiles to 'PASTE_DIR'")
 	}
+	googleAnalytics := os.Getenv("PASTE_GOOGLE_ANALYTICS")
 
 	// load up all templates
 	tmpl, err := template.New("").ParseGlob("./templates/*.html")
@@ -83,14 +84,16 @@ func main() {
 
 	m.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
-			Apex    string
-			BaseUrl string
-			Paste   Paste
-			Form    map[string]string
-			Errors  map[string]string
+			Apex            string
+			BaseUrl         string
+			GoogleAnalytics string
+			Paste           Paste
+			Form            map[string]string
+			Errors          map[string]string
 		}{
 			apex,
 			baseUrl,
+			googleAnalytics,
 			Paste{},
 			nil,
 			nil,
@@ -119,14 +122,16 @@ func main() {
 			errors := make(map[string]string)
 			errors["Text"] = "Provide some text"
 			data := struct {
-				Apex    string
-				BaseUrl string
-				Paste   Paste
-				Form    map[string]string
-				Errors  map[string]string
+				Apex            string
+				BaseUrl         string
+				GoogleAnalytics string
+				Paste           Paste
+				Form            map[string]string
+				Errors          map[string]string
 			}{
 				apex,
 				baseUrl,
+				googleAnalytics,
 				Paste{},
 				form,
 				errors,
@@ -229,13 +234,15 @@ func main() {
 
 		// render the Paste page
 		data := struct {
-			Apex    string
-			BaseUrl string
-			Paste   Paste
-			Text    string
+			Apex            string
+			BaseUrl         string
+			GoogleAnalytics string
+			Paste           Paste
+			Text            string
 		}{
 			apex,
 			baseUrl,
+			googleAnalytics,
 			paste,
 			string(text),
 		}
@@ -288,13 +295,15 @@ func main() {
 
 		// render the Paste page
 		data := struct {
-			Apex    string
-			BaseUrl string
-			Id      string
-			Text    string
+			Apex            string
+			BaseUrl         string
+			GoogleAnalytics string
+			Id              string
+			Text            string
 		}{
 			apex,
 			baseUrl,
+			googleAnalytics,
 			id,
 			string(text),
 		}
