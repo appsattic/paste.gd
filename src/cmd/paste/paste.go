@@ -43,6 +43,10 @@ func main() {
 	if dir == "" {
 		log.Fatal("Specify a dir to write pastefiles to 'PASTE_DIR'")
 	}
+	dumpDir := os.Getenv("PASTE_DUMP_DIR")
+	if dumpDir == "" {
+		log.Fatal("Specify a dir to write dumpfiles to 'PASTE_DUMP_DIR'")
+	}
 	googleAnalytics := os.Getenv("PASTE_GOOGLE_ANALYTICS")
 
 	// load up all templates
@@ -66,6 +70,9 @@ func main() {
 		return nil
 	})
 	check(err)
+
+	// dump the DB every 15 mins
+	go dumpEvery(db, time.Duration(15)*time.Minute, dumpDir)
 
 	// the mux
 	m := mux.New()

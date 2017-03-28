@@ -21,6 +21,7 @@ PASTE_PORT=`ask.sh paste PASTE_PORT 'Which local port should the server listen o
 PASTE_APEX=`ask.sh paste PASTE_APEX 'What is the apex (e.g. localhost:8420 or paste.gd) :'`
 PASTE_BASE_URL=`ask.sh paste PASTE_BASE_URL 'What is the base URL (e.g. http://localhost:1234 or https://paste.gd) :'`
 PASTE_DIR=`ask.sh paste PASTE_DIR 'What is the storage dir (e.g. /var/lib/paste/raw) :'`
+PASTE_DUMP_DIR=`ask.sh paste PASTE_DUMP_DIR 'What is the dump dir (e.g. /var/lib/paste/dump) :'`
 PASTE_GOOGLE_ANALYTICS=`ask.sh paste PASTE_GOOGLE_ANALYTICS 'What is the Google Analytics code (e.g. UA-123-4) :'`
 
 echo "Building code ..."
@@ -34,6 +35,8 @@ echo
 echo "Creating storage dir ..."
 sudo mkdir -p $PASTE_DIR
 sudo chown ${WHO}.${WHO} $PASTE_DIR
+sudo mkdir -p $PASTE_DUMP_DIR
+sudo chown ${WHO}.${WHO} $PASTE_DUMP_DIR
 echo
 
 # copy the supervisor script into place
