@@ -16,14 +16,15 @@
     <div style="border: 1px solid rgba(0,0,0,.125); background-color: #eee; padding: 0.5rem;">
       <div style="float: right;">Hosted with ♥ by <a href="https://paste.gd/">paste.gd</a>.</div>
       <div>
-        <a href="#" class="btn btn-sm btn-primary disabled" download="{{ or .Id }}.txt">Copy to Clipboard</a>
+        <a href="#" class="btn btn-sm btn-primary js-copy" data-clipboard-target="#paste">Copy to Clipboard</a>
         <a href="{{ .BaseUrl }}/dl/{{ .Id }}" class="btn btn-sm btn-primary" download="{{ or .Id }}.txt">Download</a>
         <a href="{{ .BaseUrl }}/{{ .Id }}" class="btn btn-sm btn-primary" target="_blank">See Original</a>
       </div>
     </div>
-    <pre style="padding: 1.23rem;"><code>{{ .Text }}</code></pre>
+    <pre id="paste" style="padding: 1.23rem;"><code>{{ .Text }}</code></pre>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js"></script>
     <script src="/s/js/ie10.min.js"></script>
+    <script src="/s/js/iframe.min.js"></script>
   </body>
 </html>

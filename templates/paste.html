@@ -7,12 +7,13 @@
         Created: {{ .Paste.Created.Format "02 Jan 2006, 15:04:05 MST" }}.
       </p>
       <p>
+        <a href="#" class="btn btn-sm btn-primary js-copy" data-clipboard-target="#paste">Copy to Clipboard</a>
         <a href="/{{ .Paste.Id }}.txt" id="raw" target="_blank" class="btn btn-sm btn-primary">Raw</a>
         <a href="/dl/{{ .Paste.Id }}" id="download" class="btn btn-sm btn-primary" download="{{ or .Paste.Title .Paste.Id }}.txt">Download</a>
         <a href="#" id="clone" class="btn btn-sm btn-primary disabled">Clone</a>
         <a href="#" id="print" class="btn btn-sm btn-primary disabled">Print</a>
       </p>
-      <pre style="border: 1px solid rgba(0,0,0,.125); border-radius: .25rem; background-color: #eee; padding: 1.23rem;"><code>{{ .Text }}</code></pre>
+      <pre id="paste" style="border: 1px solid rgba(0,0,0,.125); border-radius: .25rem; background-color: #eee; padding: 1.23rem;"><code>{{ .Text }}</code></pre>
     </div>
     <div class="col-lg-3">
       <h4>Embed this Paste</h4>
@@ -23,9 +24,9 @@
         <code>&lt;script&gt;</code>
         tag <span class="text-muted">(coming soon)</span>.
       </p>
-      <h5>Embed<!-- <small><a href="#">Copy to Clipboard</a></small>--></h5>
+      <h5>Embed <small><a href="#" class="js-copy" data-clipboard-target="#iframe">Copy to Clipboard</a></small></h5>
       <div class="form-group">
-        <textarea readonly class="form-control" rows="5"><iframe src="{{ .BaseUrl }}/iframe/{{ .Paste.Id }}" style="border:none;width:100%;"></iframe></textarea>
+        <textarea id="iframe" readonly class="form-control" rows="5"><iframe src="{{ .BaseUrl }}/iframe/{{ .Paste.Id }}" style="border:none;width:100%;"></iframe></textarea>
       </div>
       <!--
       <h5>JavaScript <small><a href="#">Copy to Clipboard</a></small></h5>
