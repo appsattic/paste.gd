@@ -91,6 +91,7 @@ func main() {
 
 	m.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
+			PageName        string
 			Apex            string
 			BaseUrl         string
 			GoogleAnalytics string
@@ -98,6 +99,7 @@ func main() {
 			Form            map[string]string
 			Errors          map[string]string
 		}{
+			"index",
 			apex,
 			baseUrl,
 			googleAnalytics,
@@ -106,6 +108,23 @@ func main() {
 			nil,
 		}
 		render(w, tmpl, "index.html", data)
+	})
+
+	m.Get("/about", func(w http.ResponseWriter, r *http.Request) {
+		data := struct {
+			PageName        string
+			Apex            string
+			BaseUrl         string
+			GoogleAnalytics string
+			Paste           Paste
+		}{
+			"about",
+			apex,
+			baseUrl,
+			googleAnalytics,
+			Paste{},
+		}
+		render(w, tmpl, "about.html", data)
 	})
 
 	m.Get("/paste", redirect("/"))
@@ -129,6 +148,7 @@ func main() {
 			errors := make(map[string]string)
 			errors["Text"] = "Provide some text"
 			data := struct {
+				PageName        string
 				Apex            string
 				BaseUrl         string
 				GoogleAnalytics string
@@ -136,6 +156,7 @@ func main() {
 				Form            map[string]string
 				Errors          map[string]string
 			}{
+				"paste",
 				apex,
 				baseUrl,
 				googleAnalytics,
@@ -241,12 +262,14 @@ func main() {
 
 		// render the Paste page
 		data := struct {
+			PageName        string
 			Apex            string
 			BaseUrl         string
 			GoogleAnalytics string
 			Paste           Paste
 			Text            string
 		}{
+			"paste",
 			apex,
 			baseUrl,
 			googleAnalytics,

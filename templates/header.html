@@ -27,17 +27,17 @@
         <nav>
           <ul class="nav nav-pills float-right">
             <li class="nav-item">
-              <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link {{ if eq .PageName "index" }}active{{ end }}" href="/">Home{{ if eq .PageName "index" }} <span class="sr-only">(current)</span>{{ end }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ if eq .PageName "about" }}active{{ end }}" href="/about">About{{ if eq .PageName "about" }} <span class="sr-only">(current)</span>{{ end }}</a>
             </li>
 <!--
             <li class="nav-item">
-              <a class="nav-link" href="/-/about">About</a>
+              <a class="nav-link" href="/faq">FAQ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/-/faq">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/-/contact">Contact</a>
+              <a class="nav-link" href="/contact">Contact</a>
             </li>
 -->
           </ul>
