@@ -21,6 +21,8 @@ import (
 
 var pasteBucketNameStr = "paste"
 var pasteBucketName = []byte(pasteBucketNameStr)
+var publicBucketNameStr = "public"
+var publicBucketName = []byte(publicBucketNameStr)
 
 func check(err error) {
 	if err != nil {
@@ -87,6 +89,27 @@ func main() {
 	m.Get("/sitemap.txt", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")
 		fmt.Fprintf(w, baseUrl+"/\n")
+
+		// let's get all of the public paste keys only
+		err := db.View(func(tx *bolt.Tx) error {
+			b := tx.Bucket(publicBucketName)
+			if b == nil {
+				// weird ... !
+				return nil
+			}
+
+			c := b.Cursor()
+			for k, _ := c.First(); k != nil; k, _ = c.Next() {
+				fmt.Fprintf(w, "%s/%s\n", baseUrl, k)
+			}
+
+			return nil
+		})
+		if err != nil {
+			internalServerError(w, err)
+			return
+		}
+
 	})
 
 	m.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -189,6 +212,11 @@ func main() {
 
 		// save this to the datastore
 		err = db.Update(func(tx *bolt.Tx) error {
+			// check if this is a public paste and add the name to the public bucket
+			if paste.Visibility == "public" {
+				rod.PutString(tx, publicBucketNameStr, paste.Id, now.Format("20060201-150405.000000000"))
+			}
+
 			return rod.PutJson(tx, pasteBucketNameStr, paste.Id, paste)
 		})
 		if err != nil {
